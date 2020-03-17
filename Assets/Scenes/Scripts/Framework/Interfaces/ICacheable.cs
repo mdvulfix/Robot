@@ -2,8 +2,7 @@
 {
     public interface ICacheable
     {
-        void SetData();
-        void SetBehaviour();
+
     }
 }
 

@@ -2,50 +2,35 @@ using UnityEngine;
 using Robot.Framework;
 namespace Robot
 {
-    public class BehaviourMove: IBehaviour
+    public class BehaviourMove: ABehaviour
     {
-        
-        public IActor Actor { get; private set; }
-        
+               
         private Rigidbody rigidbody;
-        private int speed;
+        private DataMove dataMove;
         
-        /*
         
         public BehaviourMove(IActor actor)
         {
-            this.Actor = actor;
-            this.rigidbody = actor.Transform.GetComponent<Rigidbody>();
-            this.speed = GetData();
-        }
-        
-        
+            SetActor(actor);
+            SetCache<BehaviourMove>(Actor, this);
 
-        
-        
-        
-        public void OnFixUpdate()
+            dataMove = Cache<DataMove>.Get(actor);
+            dataMove.Speed = 10;
+
+        }
+
+
+
+        public override void OnFixUpdate()
         {
-            Move(speed);
-
+            Move();
         }
-        
+
+
         private void Move()
-        {
-            DataMove dataMove = Cache.GetData(Actor, new)
-            var _speed = Ger
-            
-            
-            rigidbody.AddForce(Actor.Transform.forward * speed);
+        {          
+            rigidbody.AddForce(Actor.Transform.forward * dataMove.Speed);
         }
         
-        private DataMove GetDataMove()
-        {
-            
-            retern Cache.GetData(Actor)
-
-        }
-
-        */
     }
 }

@@ -3,16 +3,38 @@ using System.Collections.Generic;
 
 namespace Robot.Framework
 {
-    public static class Cache
-    {
-        private static readonly int DATA_ARRAY_LENGTH_INT = 100;
-        private static readonly int BEHAVIOUR_ARRAY_LENGTH_INT = 100;
-        
-        private static Dictionary<IActor, Dictionary<DataType, IData>> actorData = new Dictionary<IActor, Dictionary<DataType, IData>>(DATA_ARRAY_LENGTH_INT);
-        private static Dictionary<IActor, Dictionary<DataType, IBehaviour>> actorBehaviour = new Dictionary<IActor, Dictionary<DataType, IBehaviour>>(BEHAVIOUR_ARRAY_LENGTH_INT);
 
-      
-        
+    public interface ICache
+    {
+
+    }
+    
+    public class Cache<T> : ICache where T : ICacheable
+    {
+        private static Dictionary<T, Dictionary<IActor, T>> cache = new Dictionary<T, Dictionary<IActor, T>>(100);
+        private Dictionary<IActor, T> actorCache;
+       
+        public Cache()
+        {
+            actorCache = new Dictionary<IActor, T>(100);
+
+
+        }
+
+        public T Get(IActor actor) 
+        {
+            T objectToCache;
+            actorCache.TryGetValue(actor, out objectToCache);
+            return objectToCache;
+                
+        }
+
+        public void Set(IActor actor, T objectToCache)
+        {
+            actorCache.Add(actor, objectToCache);
+            cache.Add(objectToCache, actorCache);
+        }
+
         
         
         //private int [][,] actorData = new [][,] actorData 
@@ -50,11 +72,9 @@ namespace Robot.Framework
 
     }
 
-    public enum DataType
-    {
-        None,
-        Move
-    }
+
+
+
 
 
 }
