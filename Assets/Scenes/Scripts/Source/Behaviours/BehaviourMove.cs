@@ -1,5 +1,6 @@
 using UnityEngine;
 using Robot.Framework;
+
 namespace Robot
 {
     public class BehaviourMove: ABehaviour
@@ -16,6 +17,8 @@ namespace Robot
 
             dataMove = Cache<DataMove>.Get(actor);
             dataMove.Speed = 10;
+
+            Debug.Log(this.ToString() + "was created!");
 
         }
 

@@ -1,7 +1,12 @@
-﻿namespace Robot.Framework
+﻿using UnityEngine;
+
+namespace Robot.Framework
 {
-    public class SystemUpdating 
+    public class SystemUpdating : MonoBehaviour
     {        
+        
+        
+        
         public void OnUpdate() 
         {
 
@@ -14,8 +19,6 @@
             OnUpdate();
         }
 #endregion
-
-
 
     }
 

@@ -10,14 +10,17 @@ namespace Robot
         private DataMove dataMove;
         private BehaviourMove behaviourMove;
       
-        public ActorRobot()
+
+        
+        
+
+        private void OnStart() 
         {
-         
+                  
+            
             this.dataMove = new DataMove(this);
             this.behaviourMove = new BehaviourMove(this);
-
         }
-
     }
     
 }

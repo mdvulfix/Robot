@@ -1,3 +1,4 @@
+using UnityEngine;
 using Robot.Framework;
 
 namespace Robot
@@ -9,8 +10,8 @@ namespace Robot
         public DataMove(IActor actor) 
         {
             SetActor(actor);
-            SetCache<DataMove>(Actor, this);
-
+            SetCache<DataMove>(actor, this);
+            Debug.Log(this.ToString() + "was created!");
         }
 
 
