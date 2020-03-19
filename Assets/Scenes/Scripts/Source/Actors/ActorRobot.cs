@@ -4,23 +4,41 @@ using Robot.Framework;
 
 namespace Robot
 {
+    [System.Serializable]
     public class ActorRobot: AActor
     {
-        
-        private DataMove dataMove;
-        private BehaviourMove behaviourMove;
+        [SerializeField] DataMove dataMove;
+        [SerializeField] private BehaviourMove behaviourMove;
       
 
         
-        
-
-        private void OnStart() 
+        public override void OnInitialize()
         {
-                  
-            
-            this.dataMove = new DataMove(this);
-            this.behaviourMove = new BehaviourMove(this);
+            dataMove =      SetData<DataMove>(new DataMove(this, 5));
+            behaviourMove = SetBehaviour<BehaviourMove>(new BehaviourMove(this));
+
         }
+
+        
+        public override void OnUpdate()
+        {
+            behaviourMove.Move();
+
+        }
+
+        private void Update() 
+        {
+            
+            OnUpdate();
+
+
+
+        }
+
+
+
+
+
     }
     
 }

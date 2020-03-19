@@ -12,10 +12,11 @@ namespace Robot.Framework
     
     public class Cache<T> : ICache where T : ICacheable
     {
-        private static Dictionary<IActor, Dictionary<Type, T>> cache = new Dictionary<IActor, Dictionary<Type, T>>(1000);
+        private static readonly int CACHE_LENGTH = 100;
+        private static Dictionary<int, Dictionary<int, T>> cache = new Dictionary<int, Dictionary<int, T>>(CACHE_LENGTH);
         
         
-        public static T Get(IActor actor) 
+        public static T Get(int actorIndex) 
         {
             var type = typeof(T);
             Dictionary<Type, T> container = null;
@@ -33,7 +34,7 @@ namespace Robot.Framework
             }
             return item;
         }
-        
+        /*
         public static void Set(IActor actor, T objectToCache) 
         {
             var type = typeof(T);
@@ -47,6 +48,7 @@ namespace Robot.Framework
 			container.Add(type, objectToCache);
             Debug.Log(objectToCache.ToString() + "was added to cache!");
         }
+        */
        
     }
 

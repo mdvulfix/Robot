@@ -2,8 +2,7 @@
 {
     public interface IUpdatable
     {
-        void OnFixUpdate();
-
+        void OnUpdate();
 
     }
 }
