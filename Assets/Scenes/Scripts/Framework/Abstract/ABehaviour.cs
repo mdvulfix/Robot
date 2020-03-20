@@ -7,7 +7,7 @@ namespace Robot.Framework
     
     public interface IBehaviour: IActorUnit, ICacheable 
     {
-
+        
     }
     
     
@@ -17,8 +17,10 @@ namespace Robot.Framework
 #region Properties
         
         public int Index { get; protected set; }
+        public METAINDEX MetaIndex{get; protected set; }
         
         public IActor Actor { get; protected set; }
+        
         public ICache Cache { get; protected set; }     
         
 #endregion
@@ -63,20 +65,6 @@ namespace Robot.Framework
             
             return indexes.IndexOf(_behaviour);
 
-        }
-
-
-        /* 
-        public void SetCache<T>(IActor actor, T objectToCache) where T: ABehaviour
-        {
-            Cache<T>.Set(actor, objectToCache);
-        }
-
-        public void GetCache<T>(IActor actor) where T: ABehaviour
-        {
-            Cache<T>.Get(actor);
-        }
-        */
-    
+        }    
     }
 }

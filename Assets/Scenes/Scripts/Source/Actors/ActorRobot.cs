@@ -14,8 +14,8 @@ namespace Robot
         
         public override void OnInitialize()
         {
-            dataMove =      SetData<DataMove>(new DataMove(this, 5));
-            behaviourMove = SetBehaviour<BehaviourMove>(new BehaviourMove(this));
+            dataMove = SetCache<DataMove>(Index, new DataMove(this, 5)); 
+            behaviourMove = SetCache<BehaviourMove>(Index, new BehaviourMove(this));
 
         }
 

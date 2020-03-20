@@ -8,7 +8,6 @@ namespace Robot.Framework
     
     public interface IData: IActorUnit, ICacheable
     {
-
         
         
     }
@@ -21,6 +20,7 @@ namespace Robot.Framework
 #region Properties
         
         public int Index { get; protected set; }
+        public METAINDEX MetaIndex{get; protected set; }
         
         public IActor Actor { get; protected set; }
         public ICache Cache { get; protected set; }     
@@ -36,6 +36,7 @@ namespace Robot.Framework
         public AData()
         {
             Index = GetIndex();
+            
             Debug.Log("DataIndex = " + Index.ToString());
             
             // TODO: Delete editor mode for Data

@@ -15,7 +15,7 @@ namespace Robot.Framework
         private static readonly int CACHE_LENGTH = 100;
         private static Dictionary<int, Dictionary<int, T>> cache = new Dictionary<int, Dictionary<int, T>>(CACHE_LENGTH);
         
-        
+        /*
         public static T Get(int actorIndex) 
         {
             var type = typeof(T);
@@ -34,7 +34,7 @@ namespace Robot.Framework
             }
             return item;
         }
-        /*
+        
         public static void Set(IActor actor, T objectToCache) 
         {
             var type = typeof(T);

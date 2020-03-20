@@ -7,19 +7,13 @@ namespace Robot
     public class DataMove: AData
     {    
         public int Speed { get; protected set; }
-
-        /*
-        public DataMove(IActor actor) 
-        {
-            
-            SetCache<DataMove>(actor, this);
-            
-        }
-        */
-        
+       
         public DataMove(IActor actor): base()
         {
             SetActor(actor);
+            MetaIndex = new METAINDEX(DATA.MOVE);
+
+            SetSpeed(5);
             Debug.Log(this.ToString() + "was created!");
             
         }
@@ -29,7 +23,12 @@ namespace Robot
             SetActor(actor);
             Debug.Log(this.ToString() + "was created!");
             
-            this.Speed = 10;
+            SetSpeed(speed);
+        }
+
+        public void SetSpeed(int speed)
+        {         
+            this.Speed = speed;
         }
        
     }

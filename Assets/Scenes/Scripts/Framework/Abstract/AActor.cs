@@ -4,14 +4,66 @@ using UnityEngine;
 
 namespace Robot.Framework
 {
-    enum MetaType
+    public enum METATYPE
     {
         NONE,
+        ACTOR,
         DATA,
         BEHAVIOUR,
-        METATYPE_COUNT
+        META_COUNT
     }
 
+    public enum ACTOR
+    {
+        NONE,
+        ROBOT,
+        ACTOR_COUNT
+    }
+
+    public enum DATA
+    {
+        NONE,
+        MOVE,
+        JUMP,
+        DATA_COUNT
+    }
+
+    public enum BEHAVIOUR
+    {
+        NONE,
+        MOVE,
+        JUMP,
+        BEHAVIOUR_COUNT
+    }
+
+    public struct METAINDEX
+    {
+       public int metaType;
+       public int metaIndex;
+
+        public METAINDEX(int metaType, int metaIndex)
+        {
+            this.metaType = metaType;
+            this.metaIndex = metaIndex;
+
+        }
+
+        public METAINDEX(DATA metaIndex)
+        {
+            this.metaType = (int)METATYPE.DATA;
+            this.metaIndex = (int)metaIndex;
+
+        }
+
+        public METAINDEX(BEHAVIOUR metaIndex)
+        {
+            this.metaType = (int)METATYPE.BEHAVIOUR;
+            this.metaIndex = (int)metaIndex;
+
+        }
+
+
+    }
     
     
     public interface IActor: ICacheable, IUpdatable
@@ -26,17 +78,18 @@ namespace Robot.Framework
         
         #region Fields
             
-            private static readonly int META_TYPES_LENGTH = (int)MetaType.METATYPE_COUNT;
+            private static readonly int METATYPE_LENGTH = 100;
+            private static readonly int METAINDEXES_LENGTH = 100;
             
             private static readonly int ACTOR_INDEXES_LENGTH = 100;
             private static List<IActor> indexes = new List<IActor>(ACTOR_INDEXES_LENGTH);
             
-            private static readonly int INDEXES_LENGTH = 100;
-            private Dictionary<int, IData> actorData = new Dictionary<int, IData>(INDEXES_LENGTH);
-            private Dictionary<int, IBehaviour> actorBehaviour = new Dictionary<int, IBehaviour>(INDEXES_LENGTH);
+            //private static readonly int INDEXES_LENGTH = 100;
+            //private Dictionary<int, IData> actorData = new Dictionary<int, IData>(INDEXES_LENGTH);
+            //private Dictionary<int, IBehaviour> actorBehaviour = new Dictionary<int, IBehaviour>(INDEXES_LENGTH);
         
             
-            public static int[,,] cache = new int[ACTOR_INDEXES_LENGTH, META_TYPES_LENGTH, INDEXES_LENGTH];
+            public static ICacheable[,,] cache = new ICacheable[ACTOR_INDEXES_LENGTH, METATYPE_LENGTH, METAINDEXES_LENGTH];
 
 
 
@@ -44,6 +97,7 @@ namespace Robot.Framework
         
         #region Properties
             public int Index { get; protected set; } 
+            public METAINDEX MetaIndex { get; protected set; } 
             public Transform Transform { get; protected set; } 
         
         
@@ -87,40 +141,20 @@ namespace Robot.Framework
                 return indexes.IndexOf(actor);
             }
             
-            public T SetData<T>(T data) where T: IData
+            public static T SetCache<T>(int actorIndex, T data) where T: ICacheable
             {           
-                if (!actorData.ContainsKey(data.Index))
-                {
-                    actorData.Add(data.Index, data);
-                    Debug.Log("Data was set to cache!");
-                }       
-                else
-                {
-                    Debug.LogWarning("Data was not set to cache!");
-                }
-
+                var metaType = data.MetaIndex.metaType;
+                var metaIndex = data.MetaIndex.metaIndex;
+                cache[actorIndex, metaType, metaIndex] = data;
                 return data;
             }
-            
-            public T SetBehaviour<T>(T behaviour) where T: IBehaviour
-            {           
-                if (!actorBehaviour.ContainsKey(behaviour.Index))
-                {
-                    actorBehaviour.Add(behaviour.Index, behaviour);
-                    Debug.Log("Behaviour was set to cache!");
-                }       
-                else
-                {
-                    Debug.LogWarning("Behaviour was not set to cache!");
-                }
 
-                return behaviour;
+            public static T GetCache<T>(int actorIndex, METAINDEX metaIndex) where T: ICacheable
+            {           
+
+                return (T)cache[actorIndex, metaIndex.metaType, metaIndex.metaIndex];
             }
-        
-        
-        
-        
-        
+              
         #endregion
 
     }
