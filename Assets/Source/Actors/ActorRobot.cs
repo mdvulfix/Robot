@@ -14,22 +14,22 @@ namespace Robot
         
         public override void OnInitialize()
         {
-            dataMove = SetCache<DataMove>(Index, new DataMove(this, 5)); 
-            behaviourMove = SetCache<BehaviourMove>(Index, new BehaviourMove(this));
-
+            dataMove = SetCache<DataMove>(new DataMove(this, 5)); 
+            behaviourMove = SetCache<BehaviourMove>(new BehaviourMove(this));
+            
         }
 
         
-        public override void OnUpdate()
+        public override void OnFixedUpdate()
         {
             behaviourMove.Move();
 
         }
 
-        private void Update() 
+        private void FixedUpdate() 
         {
             
-            OnUpdate();
+            OnFixedUpdate();
 
 
 

@@ -11,18 +11,15 @@ namespace Robot
         public DataMove(IActor actor): base()
         {
             SetActor(actor);
-            MetaIndex = new METAINDEX(DATA.MOVE);
-
-            SetSpeed(5);
-            Debug.Log(this.ToString() + "was created!");
-            
+            SetSpeed(5);       
         }
 
         public DataMove(IActor actor, int speed): base()
         {
+            
             SetActor(actor);
             Debug.Log(this.ToString() + "was created!");
-            
+        
             SetSpeed(speed);
         }
 

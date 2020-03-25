@@ -21,7 +21,8 @@ namespace Robot.Framework
             for (int i = 0; i < 1; i++)
             {
                 Instantiate(actor, new Vector3(0f,10f,0f), Quaternion.identity);
-
+                
+                
 
             }
             
