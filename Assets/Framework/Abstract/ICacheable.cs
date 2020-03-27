@@ -4,7 +4,7 @@
     {
         Index Index{get; }
 
-        Index GetIndex();
+        Index GetCacheIndex();
 
     }
 }

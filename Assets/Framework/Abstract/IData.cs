@@ -8,29 +8,37 @@ namespace Robot.Framework
     
     public interface IData: IActorUnit, ICacheable
     {
-        
-        
+        MetaIndexes DataMetaIndex {get; } 
+        List<IData> DataClassIndex {get; } 
+
+        IActor Actor {get; }
     }
+        
     
-    
+    [System.Serializable]
     public abstract class AData: IData
     {
+        [Seria]private int index;
+
+        
+
 
 
 #region Properties
         
-        public Index Index{get; protected set; }
-        
-        public IActor Actor { get; protected set; }
-        public ICache Cache { get; protected set; }     
-        
-#endregion
-        
+        public static readonly MetaIndexes DataMetaIndex {get; set{value = MetaIndexes.DATA;}} 
         
         private static readonly int DATA_INDEXES_LENGTH = 100;
-        public static List<IData> indexes = new List<IData>(DATA_INDEXES_LENGTH);
+        protected static List<IData> DataClassIndex {get; set{value = new List<IData>(DATA_INDEXES_LENGTH);}} 
+        
+        
+        public Index Index {get; protected set; }
+        public IActor Actor { get; protected set; }
+ 
+#endregion
+        
 
-        public int index;
+        
 
         public AData()
         {

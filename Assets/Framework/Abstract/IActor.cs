@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Robot.Framework
 {
-    public enum MetaIndexValue
+    public enum MetaIndexes
     {
         NONE,
         ACTOR,
@@ -13,37 +13,11 @@ namespace Robot.Framework
         META_COUNT
     }
 
-    public enum CacheActor
-    {
-        NONE,
-        ROBOT,
-        ACTOR_COUNT
-    }
-
-    public enum CacheData
-    {
-        NONE,
-        MOVE,
-        JUMP,
-        DATA_COUNT
-    }
-
-    public enum CacheBehaviour
-    {
-        NONE,
-        MOVE,
-        JUMP,
-        BEHAVIOUR_COUNT
-    }
-
-    
+        
     public interface ICache
     {       
-        Type[] MetaIndexes{get; }
-        Type[] DataIndexes {get; }
-        ICacheable[,,] Storage{get; }
-
-        int FindIndexInCache(Type type, Type[] indexes);
+        Index[,,] Storage{get; }
+        ICacheable FindIndexInCache(Index index);
 
     }
 
@@ -60,67 +34,26 @@ namespace Robot.Framework
             this.InstanceIndex = instanceIndex;
 
         }
-        
-
-        /*
-        public CacheMetaIndex(CacheData dataIndex, int objectIndex)
-        {
-            this.metaTypeIndex = (int)CacheMetaType.DATA;
-            this.metaClassIndex = (int)dataIndex;
-            this.objectIndex = objectIndex;
-
-        }
-
-        public CacheMetaIndex(CacheBehaviour behaviourIndex, int objectIndex)
-        {
-            this.metaTypeIndex = (int)CacheMetaType.BEHAVIOUR;
-            this.metaClassIndex = (int)behaviourIndex;
-            this.objectIndex = objectIndex;
-
-        }
-        */
-
     }
     
     
     public static class Cache
-    {
-        public static readonly Type[] MetaIndexes = new Type[]
-        {
-            null,
-            typeof(IActor),
-            typeof(IData),
-            typeof(IBehaviour)
-        };
-
-        public static Type[] DataIndexes = new Type[100];
-
-
-        private static readonly int METATYPE_INDEXES_LENGTH = 100;
-        private static readonly int CLASSTYPE_INDEXES_LENGTH = 100;
-        private static readonly int INSTANCE_INDEXES_LENGTH = 100;
+    {      
         
-        public static ICacheable[,,] Storage = new ICacheable[METATYPE_INDEXES_LENGTH, CLASSTYPE_INDEXES_LENGTH, INSTANCE_INDEXES_LENGTH];
+        private static readonly int STORAGE_LENGTH = 100;
+        public static Dictionary<Index, ICacheable> Storage = new Dictionary <Index, ICacheable>(100);
 
-        public static int FindIndexInCache(Type type, Type[] indexes)
+        public static ICacheable FindIndexInCache(Index index)
         {
-            for (int _index = 0; _index < indexes.Length; _index++)
+            ICacheable _instance = null;
+            if (!Storage.ContainsKey(index))
             {
-                if(indexes[_index] == type)
-                    return _index;
-            }
+                Storage.Add(index, index.Instance);
+            }  
             
-            for (int _index = 0; _index < indexes.Length; _index++)
-            {
-                if(indexes[_index] == null)
-                {
-                    indexes[_index] = type;
-                    return _index;
-                }
-                    
-            }
-
-            return 0;
+            Storage.TryGetValue(index, out _instance);
+            
+            return _instance;
         }
         
     }
@@ -132,18 +65,20 @@ namespace Robot.Framework
         public int DataIndex {get; private set;}
         public int InstanceIndex {get; private set;}
 
-        private ICacheable instance;
+        
+        
+        public ICacheable Instance{get; private set;}
         
         public Index(ICacheable instance)
         {
-            this.instance = instance;
+            this.Instance = instance;
             GetIndex();
         }
 
         public void GetIndex()
         {
-            var index = CacheIndexer.CreateIndex(instance);
-
+            var index = Indexer.CreateIndex(this);
+            
             MetaIndex = index.MetaIndex;
             DataIndex = index.DataIndex;
             InstanceIndex = index.InstanceIndex;
@@ -152,7 +87,7 @@ namespace Robot.Framework
 
     }
 
-    public static class CacheIndexer
+    public static class Indexer
     {     
         public static IndexStruct CreateIndex(ICacheable instance) 
         {
@@ -176,7 +111,7 @@ namespace Robot.Framework
                     }  
 
                     
-                    _metaIndex.MetaIndex = Cache.FindIndexInCache(_interface, Cache.MetaIndexes);
+                    ;
                     _metaIndex.DataIndex = Cache.FindIndexInCache(_type, Cache.DataIndexes);
                     _metaIndex.InstanceIndex = AActor.indexes.IndexOf(_actor);
                 
@@ -226,30 +161,42 @@ namespace Robot.Framework
     
     public interface IActor: ICacheable, IUpdatable
     {
+        
+        MetaIndexes MetaIndex {get; }  
+        Dictionary<Type, int> ClassIndex {get; } 
+        List<IActor> InstanceIndex {get; } 
+        
         Transform Transform { get; } 
+        
+        
+        
         void OnInitialize();
+    
+    
     }
 
     
+    [System.Serializable]
     public abstract class AActor: MonoBehaviour, IActor
     {
         
         #region Fields
-            
-
-            
-            private static readonly int ACTOR_INDEXES_LENGTH = 100;
-            public static List<IActor> indexes = new List<IActor>(ACTOR_INDEXES_LENGTH);
-            
-            
-            
-
+            private static readonly int ACTOR_CLASS_INDEXES_LENGTH = 100;
+            private static readonly int ACTOR_INSTANCE_INDEXES_LENGTH = 100;
+          
             
 
         #endregion
         
         #region Properties
+            
+
+            public static MetaIndexes MetaIndex {get; private set;}
+            public static Dictionary<Type, int> ClassIndex {get; protected set;} 
+            public static List<IActor> InstanceIndex {get; protected set;} 
+            
             public Index Index { get; protected set; } 
+            
             public Transform Transform { get; protected set; } 
         
         
@@ -258,8 +205,8 @@ namespace Robot.Framework
         #region Constructors
             public void Start()
             {
-                Index = GetIndex();
-                this.Transform = transform;
+                
+                this.
 
                 OnInitialize();
             
@@ -268,7 +215,18 @@ namespace Robot.Framework
 
 
         #region PublicFunctions
-            public abstract void OnInitialize();
+            public virtual void OnInitialize()
+            {
+                MetaIndex = MetaIndexes.ACTOR;
+                ClassIndex = new Dictionary<Type, int> (ACTOR_CLASS_INDEXES_LENGTH);
+                InstanceIndex = new List<IActor>(ACTOR_INSTANCE_INDEXES_LENGTH);
+                
+                
+                Index = GetCacheIndex();
+
+                Transform = transform;
+
+            }
             
             public virtual void OnUpdate()
             {
@@ -276,14 +234,12 @@ namespace Robot.Framework
                
 
             }
-            
             public virtual void OnFixedUpdate()
             {
 
                
 
             }
-
             public virtual void OnLateUpdate()
             {
 
@@ -291,14 +247,13 @@ namespace Robot.Framework
 
             }
         
-        
-        
+                
         #endregion
 
 
         #region PrivateFunctions
 
-            public Index GetIndex()
+            public Index GetCacheIndex()
             {           
                 return new Index(this);
                 
