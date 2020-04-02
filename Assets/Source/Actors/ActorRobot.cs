@@ -1,42 +1,39 @@
 ﻿
 using UnityEngine;
 using Robot.Framework;
+using Cache = Robot.Framework.Cache;
 
 namespace Robot
 {
     [System.Serializable]
-    public class ActorRobot: AActor
+    public class ActorRobot: Actor, IUpdate
     {
-        [SerializeField] DataMove dataMove;
-        [SerializeField] private BehaviourMove behaviourMove;
+        [SerializeField] private DataMove dataMove;
+        [SerializeField] private ActionMove actionMove;
       
 
         
         public override void OnInitialize()
         {
-            dataMove = SetCache<DataMove>(new DataMove(this, 5)); 
-            behaviourMove = SetCache<BehaviourMove>(new BehaviourMove(this));
+            base.OnInitialize();
+
+            SetUpdatable();
             
+            dataMove = Cache<DataMove>.Set(this, new DataMove(this, 10));
+            actionMove = Cache<ActionMove>.Set(this, new ActionMove(this));
         }
 
         
-        public override void OnFixedUpdate()
+        public void OnUpdate()
         {
-            behaviourMove.Move();
-
+            actionMove.OnAction();
         }
-
-        private void FixedUpdate() 
+        
+        
+        public void SetUpdatable()
         {
-            
-            OnFixedUpdate();
-
-
-
+            Cache.SetUpdatable(this);
         }
-
-
-
 
 
     }

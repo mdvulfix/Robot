@@ -1,68 +1,19 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Robot.Framework
 {
-    
-    
-    public interface IData: IActorUnit, ICacheable
+    public interface IData: ICacheable
     {
-        MetaIndexes DataMetaIndex {get; } 
-        List<IData> DataClassIndex {get; } 
-
         IActor Actor {get; }
     }
         
     
-    [System.Serializable]
-    public abstract class AData: IData
+    public abstract class Data: IData
     {
-        [Seria]private int index;
-
-        
-
-
-
-#region Properties
-        
-        public static readonly MetaIndexes DataMetaIndex {get; set{value = MetaIndexes.DATA;}} 
-        
-        private static readonly int DATA_INDEXES_LENGTH = 100;
-        protected static List<IData> DataClassIndex {get; set{value = new List<IData>(DATA_INDEXES_LENGTH);}} 
-        
-        
-        public Index Index {get; protected set; }
-        public IActor Actor { get; protected set; }
+        public IActor Actor {get; protected set;}
  
-#endregion
-        
-
-        
-
-        public AData()
+        public Data(IActor actor)
         {
- 
-            Index = GetIndex();           
-
-            
-            // TODO: Delete editor mode for Data
-            this.index = this.Index.InstanceIndex;
-
+            Actor = actor;
+       
         } 
-
-        public Index GetIndex()
-        {           
-            return new Index(this);
-        }
-        
-        public void SetActor(IActor actor)
-        {
-            this.Actor = actor;
-
-        }
-        
-
-
     }
 }

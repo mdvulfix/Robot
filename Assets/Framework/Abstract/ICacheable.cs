@@ -2,9 +2,7 @@
 {
     public interface ICacheable
     {
-        Index Index{get; }
 
-        Index GetCacheIndex();
 
     }
 }

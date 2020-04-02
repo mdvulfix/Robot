@@ -4,10 +4,11 @@
     // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
             "name": "Unity Editor",
             "type": "unity",
-            "path": "/d:/_Projects/_Repositories/Robot/Library/EditorInstance.json",
+            "path": "/d:/_Repositories/Robot/Library/EditorInstance.json",
             "request": "launch"
         },
         {

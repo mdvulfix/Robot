@@ -4,30 +4,31 @@ using Robot.Framework;
 namespace Robot
 {
     [System.Serializable]
-    public class DataMove: AData
+    public class DataMove: Data
     {    
-        public int Speed { get; protected set; }
-       
-        public DataMove(IActor actor): base()
-        {
-            SetActor(actor);
-            SetSpeed(5);       
-        }
-
-        public DataMove(IActor actor, int speed): base()
-        {
-            
-            SetActor(actor);
-            Debug.Log(this.ToString() + "was created!");
         
-            SetSpeed(speed);
+        public int Speed {get; protected set;}
+        public int MaxSpeed {get; protected set;}
+        public int Velocity {get; protected set;}
+        public Vector3 Direction {get; protected set;}
+        
+        
+        public DataMove(IActor actor): base(actor)
+        {
+            Speed = 5;
+            MaxSpeed = 15;
+            Velocity = 1;
+            Direction = Vector3.one;
         }
 
-        public void SetSpeed(int speed)
-        {         
-            this.Speed = speed;
+        public DataMove(IActor actor, int speed ): base(actor)
+        {
+            Speed = speed;
+            MaxSpeed = 15;
+            Velocity = 1;
+            Direction = Vector3.one;
         }
-       
+
     }
 
 }

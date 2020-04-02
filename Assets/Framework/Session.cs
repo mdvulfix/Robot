@@ -2,13 +2,13 @@
 
 namespace Robot.Framework
 {
+    [System.Serializable]
     public class Session: MonoBehaviour
     {
         
-        public GameObject actor; 
+        //public GameObject actor; 
 
-
-        SystemUpdating updating;
+        [SerializeField] private SystemUpdating _updating;
         
         private void Awake() 
         {
@@ -20,7 +20,7 @@ namespace Robot.Framework
         {
             for (int i = 0; i < 1; i++)
             {
-                Instantiate(actor, new Vector3(0f,10f,0f), Quaternion.identity);
+                //Instantiate(actor, new Vector3(0f,10f,0f), Quaternion.identity);
                 
                 
 
