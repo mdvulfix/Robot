@@ -1,4 +1,4 @@
-﻿namespace Robot.Framework
+﻿namespace Robot
 {
     public interface IFixUpdate
     {

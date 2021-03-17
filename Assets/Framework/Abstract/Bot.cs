@@ -1,31 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Robot.Framework
+namespace Robot
 {
    
-    public interface IActor: ICacheable
+    public interface IBot: ICacheable
     { 
         Transform Transform { get; } 
         
-        void OnInitialize();
+        void OnAwake();
     
     }
 
     
-    public abstract class Actor: MonoBehaviour, IActor
+    public abstract class Bot: MonoBehaviour, IBot
     {
       
         public Transform Transform { get; protected set; } 
         
         public void Awake()
         {
-            OnInitialize();
+            OnAwake();
         
         } 
 
-        public virtual void OnInitialize()
+        public virtual void OnAwake()
         {
             Transform = transform;
 

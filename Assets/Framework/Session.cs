@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Robot.Framework
+namespace Robot
 {
     [System.Serializable]
     public class Session: MonoBehaviour
@@ -8,7 +8,7 @@ namespace Robot.Framework
         
         //public GameObject actor; 
 
-        [SerializeField] private SystemUpdating _updating;
+        [SerializeField] private ControlUpdate _controlUpdate;
         
         private void Awake() 
         {

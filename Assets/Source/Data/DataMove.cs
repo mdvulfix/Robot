@@ -1,5 +1,4 @@
 using UnityEngine;
-using Robot.Framework;
 
 namespace Robot
 {
@@ -7,21 +6,24 @@ namespace Robot
     public class DataMove: Data
     {    
         
-        public int Speed {get; protected set;}
+        
+        [SerializeField] private int _speed;
+        
+        public int Speed {get {return _speed;} protected set {_speed = value;}}
         public int MaxSpeed {get; protected set;}
         public int Velocity {get; protected set;}
         public Vector3 Direction {get; protected set;}
         
         
-        public DataMove(IActor actor): base(actor)
+        public DataMove(IBot bot): base(bot)
         {
-            Speed = 5;
+            Speed = 0;
             MaxSpeed = 15;
             Velocity = 1;
             Direction = Vector3.one;
         }
 
-        public DataMove(IActor actor, int speed ): base(actor)
+        public DataMove(IBot bot, int speed): base(bot)
         {
             Speed = speed;
             MaxSpeed = 15;

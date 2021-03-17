@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Robot.Framework
+namespace Robot
 {
       
     
@@ -48,19 +48,19 @@ namespace Robot.Framework
         private static Dictionary<int, Dictionary<int, T>> Storage = new Dictionary<int, Dictionary<int, T>>(100);
 
 
-        public static T Set(IActor actor, T instance)
+        public static T Set(IBot bot, T instance)
         {
             var _data = new  Dictionary<int, T>();
             _data.Add(typeof(T).GetHashCode(), instance);
-            Storage.Add(actor.GetHashCode(), _data);
+            Storage.Add(bot.GetHashCode(), _data);
             return instance;
         }
 
-        public static T Get(IActor actor)
+        public static T Get(IBot bot)
         {
             Dictionary<int, T> _data;
             T _instance;
-            Storage.TryGetValue(actor.GetHashCode(), out _data);
+            Storage.TryGetValue(bot.GetHashCode(), out _data);
             _data.TryGetValue(typeof(T).GetHashCode(), out _instance);
             
             return _instance;

@@ -2,27 +2,25 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Robot.Framework
+namespace Robot
 {
     public interface IAction: ICacheable 
     {
-        IActor Actor {get; }
+        IBot Bot {get; }
     }
     
     [System.Serializable]
     public abstract class Action<T>: IAction where T: IData
     {
-        public IActor Actor {get; set;}
+        public IBot Bot {get; set;}
         public T Data {get; protected set;}
         
-        public Action(IActor actor)
+        public Action(IBot bot)
         {
-            Actor = actor;
-            Data = Cache<T>.Get(actor);
+            Bot = bot;
+            Data = Cache<T>.Get(bot);
 
         }
-
-        public abstract void OnAction();
     
     }
 }

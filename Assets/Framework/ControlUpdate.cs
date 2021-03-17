@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace Robot.Framework
+namespace Robot
 {
     [System.Serializable]
-    public class SystemUpdating: MonoBehaviour
+    public class ControlUpdate: MonoBehaviour
     {        
         
         public void OnUpdate() 
@@ -21,6 +21,7 @@ namespace Robot.Framework
                 updatable.OnFixUpdate();
             }
         }
+        
         public void OnLateUpdate() 
         {
             foreach (var updatable in Cache.LateUpdatables)
