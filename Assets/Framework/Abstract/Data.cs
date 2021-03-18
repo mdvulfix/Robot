@@ -1,3 +1,5 @@
+using System;
+
 namespace Robot
 {
     public interface IData: ICacheable
