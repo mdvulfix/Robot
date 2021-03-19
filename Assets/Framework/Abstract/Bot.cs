@@ -5,7 +5,7 @@ namespace Robot
    
     public interface IBot: ICacheable
     { 
-        Transform Transform { get; } 
+        GameObject Obj {get; } 
         
         void OnAwake();
     
@@ -14,8 +14,7 @@ namespace Robot
     
     public abstract class Bot: MonoBehaviour, IBot
     {
-      
-        public Transform Transform { get; protected set; } 
+        public GameObject Obj {get; private set;} 
         
         public void Awake()
         {
@@ -25,7 +24,7 @@ namespace Robot
 
         public virtual void OnAwake()
         {
-            Transform = transform;
+            Obj = gameObject;
 
         }
     

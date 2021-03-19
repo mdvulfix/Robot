@@ -10,7 +10,8 @@ namespace Robot
         [SerializeField] private DataMove dataMove;
         [SerializeField] private ActionMoveForce actionMove;
       
-
+        public Data[] Storage;
+        
         
         public override void OnAwake()
         {
@@ -18,14 +19,27 @@ namespace Robot
 
             SetUpdatable();
             
-            dataMove = Cache<DataMove>.Set(this, new DataMove(this, 10));
-            actionMove = Cache<ActionMoveForce>.Set(this, new ActionMoveForce(this));
+            if(dataMove == null)
+            {
+                foreach (var data in Storage)
+                {
+                    if(data is DataMove)
+                        dataMove = data as DataMove;
+                }
+                
+                //dataMove = new DataMove(this, 10);  
+            
+            }
+            Cache<DataMove>.Set(this, dataMove);
+            
+            if(actionMove == null)
+                actionMove = Cache<ActionMoveForce>.Set(this, new ActionMoveForce(this));
         }
 
         
         public void OnUpdate()
         {
-            actionMove.OnMove();
+            actionMove.OnAction();
         }
         
         

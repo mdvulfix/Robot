@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Robot
 {
@@ -7,12 +8,12 @@ namespace Robot
         IBot Bot {get; }
     }
         
-    
-    public abstract class Data: IData
+    [Serializable]
+    public class Data: ScriptableObject, IData
     {
         public IBot Bot {get; protected set;}
  
-        public Data(IBot bot)
+        public Data()
         {
             Bot = bot;
        

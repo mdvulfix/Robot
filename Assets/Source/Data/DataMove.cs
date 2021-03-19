@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 namespace Robot
 {
-    [System.Serializable]
+    [Serializable]
+    [CreateAssetMenu(fileName = "DataMoveDefault", menuName = "Data/DataMove")]
     public class DataMove: Data
     {    
         

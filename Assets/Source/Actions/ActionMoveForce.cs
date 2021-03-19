@@ -5,44 +5,35 @@ using UnityEngine;
 namespace Robot
 {
     [Serializable]
-    public class ActionMoveForce: Robot.Action<DataMove>
+    [RequireComponent(typeof(Rigidbody))]
+    public class ActionMoveForce: Action<DataMove>
     {
-                
         private Rigidbody _rigidbody;
-        private int _speed;
 
-
-        public ActionMoveForce(IBot bot): base(bot)
+        public ActionMoveForce(IBot bot)
         {
-            _rigidbody = Bot.Transform.gameObject.GetComponent<Rigidbody>();
-            _speed = Data.Speed;
+            if(!GetData(bot))
+            {
+                Debug.Log("Data not found!");
+                return;
+            }
+
+            _rigidbody = Bot.Obj.GetComponent<Rigidbody>();
         }
     
-        public Vector3 OnMove()
+        public override void OnAction()
         {
-
-            if (Input.GetKey (KeyCode.W)) 
-            {
-                _rigidbody.AddForce(0,0, _speed,ForceMode.Acceleration);
-            }
-            if (Input.GetKey (KeyCode.S)) 
-            {
-                _rigidbody.AddForce(0,0,-_speed,ForceMode.Acceleration);
-            }
-            if (Input.GetKey (KeyCode.A)) 
-            {
-               _rigidbody.AddForce(-_speed,0,0,ForceMode.Acceleration);
-            }
-            if (Input.GetKey (KeyCode.D)) 
-            {
-               _rigidbody.AddForce(_speed,0,0,ForceMode.Acceleration);
-            }
-            if (Input.GetKey (KeyCode.Space)) 
-            {
-               _rigidbody.AddForce(0, _speed * 3 , 0, ForceMode.Acceleration);
-            }
-
-            return Bot.Transform.position;
+            if(Input.GetKey (KeyCode.W))
+                _rigidbody.AddForce(0,0, Data.Speed, ForceMode.Acceleration);
+            if (Input.GetKey (KeyCode.S))
+                _rigidbody.AddForce(0,0,-Data.Speed, ForceMode.Acceleration);
+            if (Input.GetKey (KeyCode.A))
+                _rigidbody.AddForce(-Data.Speed,0,0, ForceMode.Acceleration);
+            if (Input.GetKey (KeyCode.D))
+                _rigidbody.AddForce(Data.Speed,0,0, ForceMode.Acceleration);
+            
+            if (Input.GetKey (KeyCode.Space))
+                _rigidbody.AddForce(0, Data.Speed * 3 , 0, ForceMode.Acceleration);
         }
     }
 }
