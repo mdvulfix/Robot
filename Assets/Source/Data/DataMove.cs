@@ -7,17 +7,15 @@ namespace Robot
     [CreateAssetMenu(fileName = "DataMoveDefault", menuName = "Data/DataMove")]
     public class DataMove: Data
     {    
-        
-        
         [SerializeField] private int _speed;
         
-        public int Speed {get {return _speed;} protected set {_speed = value;}}
-        public int MaxSpeed {get; protected set;}
-        public int Velocity {get; protected set;}
-        public Vector3 Direction {get; protected set;}
+        public int      Speed       {get {return _speed;} protected set {_speed = value;}}
+        public int      MaxSpeed    {get; protected set;}
+        public int      Velocity    {get; protected set;}
+        public Vector3  Direction   {get; protected set;}
         
         
-        public DataMove(IBot bot): base(bot)
+        public DataMove(IBot bot)
         {
             Speed = 0;
             MaxSpeed = 15;
@@ -25,7 +23,7 @@ namespace Robot
             Direction = Vector3.one;
         }
 
-        public DataMove(IBot bot, int speed): base(bot)
+        public DataMove(IBot bot, int speed)
         {
             Speed = speed;
             MaxSpeed = 15;

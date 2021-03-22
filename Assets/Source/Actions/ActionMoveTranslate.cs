@@ -4,13 +4,13 @@ using UnityEngine;
 namespace Robot
 {
     [Serializable]
-    [RequireComponent(typeof(Rigidbody))]
-    public class ActionMoveTranslate: Action<DataMove>
+    [CreateAssetMenu(fileName = "ActionMoveTranslate", menuName = "Actions/Move: Translate")]
+    public class ActionMoveTranslate: Action
     {
                 
-        public ActionMoveTranslate(IBot bot)
+        public override void Initialize(IBot bot)
         {
-            if(!GetData(bot))
+            if(!GetData<DataMove>())
             {
                 Debug.Log("Data not found!");
                 return;
@@ -19,7 +19,11 @@ namespace Robot
     
         public override void OnAction()
         {
-            Bot.Obj.transform.Translate(new Vector3(0, 0, 1) * Data.Speed * Time.deltaTime, Space.World);        
+            if(_data is DataMove)
+            {
+                var data = _data as DataMove;
+                _bot.Obj.transform.Translate(new Vector3(0, 0, 1) * data.Speed * Time.deltaTime, Space.World); 
+            }      
         }
 
     }

@@ -343,11 +343,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85df9a776e971dc478d8ad67cb4608f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataMove: {fileID: 0}
-  Storage:
-  - {fileID: 11400000, guid: a3ecad223668eae45bf3e6e946e1a9f8, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  _actions: []
+  dataMove: {fileID: 11400000, guid: a3ecad223668eae45bf3e6e946e1a9f8, type: 2}
+  actionMove: {fileID: 11400000, guid: 93e596ef4ad63f74cbd2843fca80d592, type: 2}
 --- !u!135 &1469301065
 SphereCollider:
   m_ObjectHideFlags: 0

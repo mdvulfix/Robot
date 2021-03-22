@@ -1,41 +1,30 @@
-﻿
+﻿using System;
 using UnityEngine;
 using Cache = Robot.Cache;
 
 namespace Robot
 {
-    [System.Serializable]
+    [Serializable]
     public class BotRobot: Bot, IUpdate
     {
-        [SerializeField] private DataMove dataMove;
-        [SerializeField] private ActionMoveForce actionMove;
+        [SerializeField] private Data dataMove;
+        [SerializeField] private Action actionMove;
       
-        public Data[] Storage;
-        
-        
         public override void OnAwake()
         {
             base.OnAwake();
 
             SetUpdatable();
             
-            if(dataMove == null)
-            {
-                foreach (var data in Storage)
-                {
-                    if(data is DataMove)
-                        dataMove = data as DataMove;
-                }
-                
-                //dataMove = new DataMove(this, 10);  
+            if(dataMove != null)
+                Cache<DataMove>.Set(this, dataMove as DataMove);
+
+            actionMove.Initialize(this);
             
-            }
-            Cache<DataMove>.Set(this, dataMove);
-            
-            if(actionMove == null)
-                actionMove = Cache<ActionMoveForce>.Set(this, new ActionMoveForce(this));
         }
 
+        
+        
         
         public void OnUpdate()
         {

@@ -1,29 +1,48 @@
 using System;
+using UnityEngine;
 
 namespace Robot
 {
     public interface IAction: ICacheable 
     {
+        void Initialize(IBot bot);
         void OnAction();
     }
     
     [Serializable]
-    public abstract class Action<T>: IAction where T: IData
+    public abstract class Action: ScriptableObject, IAction 
     {       
-        public IBot    Bot  {get; private set;}
-        public T       Data {get; private set;}
+        protected IBot    _bot;
+        protected IData   _data;
         
-        public bool GetData(IBot bot)
+        public virtual void Initialize(IBot bot)
         {
-            Bot = bot;
-            Data = Cache<T>.Get(bot);
+            SetBot(bot);
+
+        }
+
+        public bool GetData<T>() where T: IData
+        {
+            _data = Cache<T>.Get(_bot) as IData;
             
-            if(Data!=null)
-                return true;
+            if(_data == null)
+                return false;
             
-            return false;
+            return true;
         }
 
         public abstract void OnAction();
+    
+        protected void SetBot(IBot bot)
+        {
+            _bot = bot;
+        }
+        
+        protected void SetData(IData data)
+        {
+            _data = data;
+        }
+    
+    
     }
 }
