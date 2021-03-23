@@ -4,11 +4,14 @@ namespace Robot
 {
     public class FolderAttribute : PropertyAttribute
     {
-		private string _name;
+		public string 	Name 		{get; private set;}
+		public bool		Multiple 	{get; private set;}
  
-		public FolderAttribute(string name)
+		public FolderAttribute(string name, bool multiple = false)
 		{
-			_name = name;
+			Name = name;
+			Multiple = multiple;
+
 		}
     }
 }

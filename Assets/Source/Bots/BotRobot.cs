@@ -9,8 +9,9 @@ namespace Robot
     public class BotRobot: Bot //, IUpdate
     {
         
-        [SerializeField]
-        private DataMove _move;
+        
+        [FoldoutGroup("Data")] public DataMove _move;
+        [FoldoutGroup("Data")] public DataMove _move2;
         
         private IData    _dataMove;
         private IAction  _actionMove;
