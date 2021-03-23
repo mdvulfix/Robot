@@ -5,17 +5,17 @@ namespace Robot
 {
     public interface IData: ICacheable
     {
-        //IBot Bot {get; }
+        IBot Bot {get; }
     }
         
-    [Serializable]
-    public abstract class Data: ScriptableObject, IData
+    
+    public abstract class Data: IData
     {
         public IBot Bot {get; protected set;}
  
-        public Data()
+        public void SetBot(IBot bot)
         {
-            //Bot = bot;
+            Bot = bot;
        
         } 
     }

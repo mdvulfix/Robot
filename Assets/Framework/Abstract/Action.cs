@@ -10,29 +10,12 @@ namespace Robot
     }
     
     [Serializable]
-    public abstract class Action: ScriptableObject, IAction 
+    public abstract class Action<T>: IAction where T: class, IData
     {       
-        protected IBot    _bot;
-        protected IData   _data;
+        protected IBot  _bot;
+        protected T _data;
+
         
-        public virtual void Initialize(IBot bot)
-        {
-            SetBot(bot);
-
-        }
-
-        public bool GetData<T>() where T: IData
-        {
-            _data = Cache<T>.Get(_bot) as IData;
-            
-            if(_data == null)
-                return false;
-            
-            return true;
-        }
-
-        public abstract void OnAction();
-    
         protected void SetBot(IBot bot)
         {
             _bot = bot;
@@ -40,9 +23,22 @@ namespace Robot
         
         protected void SetData(IData data)
         {
-            _data = data;
+            _data = data as T;
         }
-    
-    
+
+        public T GetData() 
+        {
+            var data = Cache<T>.Get(_bot);
+            return data;
+        }
+
+        public abstract void Initialize(IBot bot);
+        public abstract void OnAction();
+
     }
+
+
+
+
+
 }

@@ -4,19 +4,23 @@ using UnityEngine;
 namespace Robot
 {
     [Serializable]
-    [CreateAssetMenu(fileName = "DataMoveDefault", menuName = "Data/DataMove")]
     public class DataMove: Data
     {    
-        [SerializeField] private int _speed;
+        [SerializeField] private int        _speed;
+        [SerializeField] private int        _maxSpeed;
+        [SerializeField] private int        _velocity;
+        [SerializeField] private Vector3    _direction;
         
-        public int      Speed       {get {return _speed;} protected set {_speed = value;}}
-        public int      MaxSpeed    {get; protected set;}
-        public int      Velocity    {get; protected set;}
-        public Vector3  Direction   {get; protected set;}
+        public int      Speed       {get => _speed;      protected set => _speed = value;}
+        public int      MaxSpeed    {get => _maxSpeed;   protected set => _maxSpeed = value;}
+        public int      Velocity    {get => _velocity;   protected set => _velocity = value;}
+        public Vector3  Direction   {get => _direction;  protected set => _direction = value;}
         
         
         public DataMove(IBot bot)
         {
+            SetBot(bot);
+
             Speed = 0;
             MaxSpeed = 15;
             Velocity = 1;
@@ -25,6 +29,8 @@ namespace Robot
 
         public DataMove(IBot bot, int speed)
         {
+            SetBot(bot);
+            
             Speed = speed;
             MaxSpeed = 15;
             Velocity = 1;

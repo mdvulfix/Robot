@@ -4,26 +4,19 @@ using UnityEngine;
 namespace Robot
 {
     [Serializable]
-    [CreateAssetMenu(fileName = "ActionMoveTranslate", menuName = "Actions/Move: Translate")]
-    public class ActionMoveTranslate: Action
+    public class ActionMoveTranslate: ActionMove
     {
-                
-        public override void Initialize(IBot bot)
+        private Transform _transform;
+
+        public override void GetComponents()
         {
-            if(!GetData<DataMove>())
-            {
-                Debug.Log("Data not found!");
-                return;
-            }
+            _transform = _bot.Obj.transform;
         }
-    
+
         public override void OnAction()
         {
-            if(_data is DataMove)
-            {
-                var data = _data as DataMove;
-                _bot.Obj.transform.Translate(new Vector3(0, 0, 1) * data.Speed * Time.deltaTime, Space.World); 
-            }      
+            _transform.Translate(new Vector3(0, 0, 1) * _data.Speed * Time.deltaTime, Space.World); 
+  
         }
 
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -343,9 +343,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85df9a776e971dc478d8ad67cb4608f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actions: []
-  dataMove: {fileID: 11400000, guid: a3ecad223668eae45bf3e6e946e1a9f8, type: 2}
-  actionMove: {fileID: 11400000, guid: 93e596ef4ad63f74cbd2843fca80d592, type: 2}
+  _move:
+    _speed: 0
+    _maxSpeed: 0
+    _velocity: 0
+    _direction: {x: 0, y: 0, z: 0}
 --- !u!135 &1469301065
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -545,7 +547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c65f446be220c774c92214c8553221dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _controlUpdate: {fileID: 1839054291}
+  _controlUpdate: {fileID: 0}
 --- !u!4 &1609607774
 Transform:
   m_ObjectHideFlags: 0
@@ -570,7 +572,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1839054292}
-  - component: {fileID: 1839054291}
   m_Layer: 0
   m_Name: ControlUpdate
   m_TagString: Untagged
@@ -578,18 +579,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1839054291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1839054290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6115f2d52da4d06478ce0ac3f812f1f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1839054292
 Transform:
   m_ObjectHideFlags: 0

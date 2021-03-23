@@ -2,20 +2,25 @@ using System;
 using UnityEngine;
 
 namespace Robot
-{
-    [Serializable]
-    public abstract class Action<T>: Action where T: IData
+{    
+    
+    public abstract class ActionMove: Action<DataMove>
     {
-        public T Data;
-        
         public override void Initialize(IBot bot)
         {
-            if(!GetData<T>())
+            SetBot(bot);
+            
+            if(GetData() == null)
             {
                 Debug.Log("Data not found!");
                 return;
             }
+            
+            GetComponents();
         }
+    
+        public abstract void GetComponents();
 
     }
+
 }

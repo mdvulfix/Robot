@@ -17,10 +17,7 @@ namespace Robot
     [Serializable]
     public class Bot: MonoBehaviour, IBot
     {
-        public GameObject      Obj     {get; private set;} 
-        
-        [SerializeField]
-        private List<Action> _actions = new List<Action>(10);      
+        public GameObject      Obj     {get; private set;}    
         
         public void Awake()
         {
