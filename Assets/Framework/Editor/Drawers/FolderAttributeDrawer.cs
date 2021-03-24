@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
@@ -6,16 +6,16 @@ using UnityEngine;
 using UnityEditor;
 using Object = UnityEngine.Object;
 
-namespace Robot
+namespace Robot.Attributes
 {
-	[CustomEditor(typeof(Data), true, isFallback = true)]
+	
+	[CustomEditor(typeof(Bot), true, isFallback = true)]
 	[CanEditMultipleObjects]
-    public class InspectorPropertyDrawer : Editor
+    public class FolderAttributeDrawer: Editor
     {
 		
-		public Dictionary<string, Cache> 	Storage 	{get; } = new Dictionary<string, Cache>();
-		public List<SerializedProperty> 	Properties 	{get; } = new List<SerializedProperty>();
-		
+		public Dictionary<string, FolderAttributeCache> 	Storage 	{get; } = new Dictionary<string, FolderAttributeCache>();
+		public List<SerializedProperty> 					Properties 	{get; } = new List<SerializedProperty>();
 		
 		private bool 			_initialized = false;
 
@@ -30,13 +30,13 @@ namespace Robot
 			
 			_colors = new Colors();
 			_colors.col0 = new Color(0.2f, 0.2f, 0.2f, 1f);
-			_colors.col1 = new Color(1, 1, 1, 0.55f);
-			_colors.col2 = new Color(0.7f, 0.7f, 0.7f, 1f);
+			_colors.col1 = new Color(1, 1, 1, 0.1f);
+			_colors.col2 = new Color(0.25f, 0.25f, 0.25f, 1f);
 			
 			
 			_objectFields = target.GetType()
 				.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-					.ToList();
+				.ToList();
 
 			Repaint();
 		}
@@ -76,7 +76,7 @@ namespace Robot
 		{
 			serializedObject.Update();
 		
-			if (_initialized == true)
+			if (!_initialized)
 			{
 				var length = _objectFields.Count;
 				
@@ -86,13 +86,13 @@ namespace Robot
 						.GetCustomAttribute(_objectFields[i], typeof(FolderAttribute)) as FolderAttribute;
 
 					
-					Cache cache;
+					FolderAttributeCache cache;
 					if (currentAttribute == null)
 					{
 						if (_attribute != null && _attribute.Multiple)
 						{
 							if (!Storage.TryGetValue(_attribute.Name, out cache))
-								Storage.Add(_attribute.Name, new Cache(_attribute, _objectFields[i].Name));
+								Storage.Add(_attribute.Name, new FolderAttributeCache(_attribute, _objectFields[i].Name));
 							else
 								cache.Types.Add(_objectFields[i].Name);
 						}
@@ -102,99 +102,100 @@ namespace Robot
 					
 					_attribute = currentAttribute;
 					if (!Storage.TryGetValue(currentAttribute.Name, out cache))
-						Storage.Add(currentAttribute.Name, new Cache(currentAttribute, _objectFields[i].Name));
+						Storage.Add(currentAttribute.Name, new FolderAttributeCache(currentAttribute, _objectFields[i].Name));
 					else
 						cache.Types.Add(_objectFields[i].Name);
 					
 				}
 
-
-				var property = serializedObject.GetIterator();
-				do 
+			
+				var property = serializedObject.GetIterator();				
+				
+				if(property.NextVisible(true))
 				{
-					bool haveToFold = false;
-
-					foreach (var folder in Storage)
+					do 
 					{
-						if (folder.Value.Types.Contains(property.name))
+						bool haveToFold = false;
+
+						foreach (var folder in Storage)
 						{
-							haveToFold = true;
-							folder.Value.Properties.Add(property.Copy());
+							if (folder.Value.Types.Contains(property.name))
+							{
+								haveToFold = true;
+								folder.Value.Properties.Add(property.Copy());
 
-							break;
+								break;
+							}
 						}
-					}
 
-					if (haveToFold == false)
-					{
-						Properties.Add(property.Copy());
-					}
-				} 
-				while (property.NextVisible(false));
-
-				if (Properties.Count == 0)
-				{
-					DrawDefaultInspector();
-					return;
+						if (haveToFold == false)
+						{
+							Properties.Add(property.Copy());
+						}
+					} while (property.NextVisible(false));
 				}
+			}
+			
+			if (Properties.Count == 0)
+			{
+				DrawDefaultInspector();
+				return;
+			}
 
-				_initialized = true;
+			_initialized = true;
 
-				using (new EditorGUI.DisabledScope("m_Script" == Properties[0].propertyPath))
-				{
-					EditorGUILayout.PropertyField(Properties[0], true);
-				}
+			using (new EditorGUI.DisabledScope("m_Script" == Properties[0].propertyPath))
+			{
+				EditorGUILayout.PropertyField(Properties[0], true);
+			}
+
+			EditorGUILayout.Space();
+
+			
+			foreach (var folder in Storage)
+			{
+				Rect rect;
+				
+				rect = EditorGUILayout.BeginVertical();
 
 				EditorGUILayout.Space();
 
-				
-				foreach (var folder in Storage)
+				EditorGUI.DrawRect(new Rect(rect.x - 1, rect.y - 1, rect.width + 1, rect.height + 1), _colors.col0);
+				EditorGUI.DrawRect(new Rect(rect.x - 1, rect.y - 1, rect.width + 1, rect.height + 1), _colors.col1);
+
+				folder.Value.Expanded = EditorGUILayout
+					.Foldout(folder.Value.Expanded, folder.Value.Attribute.Name, true, _style != null ? _style : EditorStyles.foldout);
+
+
+				EditorGUILayout.EndVertical();
+
+				rect = EditorGUILayout.BeginVertical();
+
+				EditorGUI.DrawRect(new Rect(rect.x - 1, rect.y - 1, rect.width + 1, rect.height + 1), _colors.col2);
+
+				if (folder.Value.Expanded)
 				{
-					Rect rect;
-					
-					rect = EditorGUILayout.BeginVertical();
-
 					EditorGUILayout.Space();
-
-					EditorGUI.DrawRect(new Rect(rect.x - 1, rect.y - 1, rect.width + 1, rect.height + 1), _colors.col0);
-					EditorGUI.DrawRect(new Rect(rect.x - 1, rect.y - 1, rect.width + 1, rect.height + 1), _colors.col1);
-
-					folder.Value.Expanded = EditorGUILayout
-						.Foldout(folder.Value.Expanded, folder.Value.Attribute.Name, true, _style != null ? _style : EditorStyles.foldout);
-
-
-					EditorGUILayout.EndVertical();
-
-					rect = EditorGUILayout.BeginVertical();
-
-					EditorGUI.DrawRect(new Rect(rect.x - 1, rect.y - 1, rect.width + 1, rect.height + 1), _colors.col2);
-
-					if (folder.Value.Expanded)
 					{
-						EditorGUILayout.Space();
+						for (int i = 0; i < folder.Value.Properties.Count; i++)
 						{
-							for (int i = 0; i < folder.Value.Properties.Count; i++)
-							{
-								EditorGUI.indentLevel = 1;
+							EditorGUI.indentLevel = 1;
 
-								EditorGUILayout
-									.PropertyField(folder.Value.Properties[i], new GUIContent(folder.Value.Properties[i].name.FirstLetterToUpperCase()), true);
-								if (i == folder.Value.Properties.Count - 1)
-									EditorGUILayout.Space();
-							}
+							EditorGUILayout
+								.PropertyField(folder.Value.Properties[i], new GUIContent(folder.Value.Properties[i].name.FirstLetterToUpperCase()), true);
+							if (i == folder.Value.Properties.Count - 1)
+								EditorGUILayout.Space();
 						}
 					}
-
-					EditorGUI.indentLevel = 0;
-					EditorGUILayout.EndVertical();
-					EditorGUILayout.Space();
 				}
+
+				EditorGUI.indentLevel = 0;
+				EditorGUILayout.EndVertical();
+				EditorGUILayout.Space();
 			}
 		}
     
-		
-		
-		public class Cache
+		public class FolderAttributeCache
 		{
 			public FolderAttribute 			Attribute 	{get; private set;}
 			
@@ -203,7 +204,7 @@ namespace Robot
 			
 			public bool 					Expanded 	{get; set;} = false;
 
-			public Cache(FolderAttribute attribute, string hashIndex)
+			public FolderAttributeCache(FolderAttribute attribute, string hashIndex)
 			{
 				Attribute = attribute;
 				Types.Add(hashIndex);
@@ -221,7 +222,7 @@ namespace Robot
 			}
 		}
 	
-		private struct Colors
+		public struct Colors
 		{
 			public Color col0;
 			public Color col1;
@@ -229,7 +230,7 @@ namespace Robot
 		}
 	
 	}
-	/*
+
 	public static class Extensions
 	{
 		public static string FirstLetterToUpperCase(this string s)
@@ -254,7 +255,5 @@ namespace Robot
 			return types;
 		}
 	}
-	*/
-
 
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Robot.Attributes;
 
 namespace Robot
 {
@@ -17,7 +18,10 @@ namespace Robot
     [Serializable]
     public class Bot: MonoBehaviour, IBot
     {
-        public GameObject      Obj     {get; private set;}    
+        [Folder("Data")]
+        public GameObject _object;
+
+        public GameObject Obj {get; private set;}    
         
         public void Awake()
         {

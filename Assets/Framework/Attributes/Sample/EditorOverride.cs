@@ -9,9 +9,11 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+
 namespace Robot
-{
-	[CustomEditor(typeof(Object), true, isFallback = true)]
+{	
+	/*
+	[CustomEditor(typeof(ActionMove), true, isFallback = true)]
 	[CanEditMultipleObjects]
 	public class EditorOverride : Editor
 	{
@@ -265,7 +267,7 @@ namespace Robot
 		}
 	}
 
-
+	
 	public static partial class FrameworkExtensions
 	{
 		public static string FirstLetterToUpperCase(this string s)
@@ -290,5 +292,7 @@ namespace Robot
 			return types;
 		}
 	}
-}
+	*/	
+
+}	
 #endif

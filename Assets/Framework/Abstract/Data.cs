@@ -8,7 +8,7 @@ namespace Robot
         IBot Bot {get; }
     }
         
-    
+    [Serializable]
     public abstract class Data: IData
     {
         public IBot Bot {get; protected set;}

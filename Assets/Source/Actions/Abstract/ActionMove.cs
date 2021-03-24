@@ -4,8 +4,12 @@ using UnityEngine;
 namespace Robot
 {    
     
+    [Serializable]
     public abstract class ActionMove: Action<DataMove>
     {
+        
+        
+        
         public override void Initialize(IBot bot)
         {
             SetBot(bot);

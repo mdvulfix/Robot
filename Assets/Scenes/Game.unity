@@ -308,8 +308,8 @@ GameObject:
   - component: {fileID: 1469301067}
   - component: {fileID: 1469301066}
   - component: {fileID: 1469301065}
-  - component: {fileID: 1469301064}
   - component: {fileID: 1469301068}
+  - component: {fileID: 1469301064}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Untagged
@@ -340,14 +340,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1469301062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85df9a776e971dc478d8ad67cb4608f7, type: 3}
+  m_Script: {fileID: 11500000, guid: d1a3d626d2492cf4aa2a47d019b4075f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _move:
+  _object: {fileID: 0}
+  _dataShoot:
     _speed: 0
-    _maxSpeed: 0
-    _velocity: 0
     _direction: {x: 0, y: 0, z: 0}
+    _bulletPref: {fileID: 0}
 --- !u!135 &1469301065
 SphereCollider:
   m_ObjectHideFlags: 0

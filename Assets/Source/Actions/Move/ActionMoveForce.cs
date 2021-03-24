@@ -8,6 +8,7 @@ namespace Robot
     [RequireComponent(typeof(Rigidbody))]
     public class ActionMoveForce: ActionMove
     {
+        public int speed = 10;
         
         private Rigidbody _rigidbody;
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Robot
+namespace Robot.Attributes
 {
     public class FolderAttribute : PropertyAttribute
     {

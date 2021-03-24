@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEditor;
+using Robot.Attributes;
 using Cache = Robot.Cache;
 
 namespace Robot
@@ -9,12 +10,19 @@ namespace Robot
     public class BotRobot: Bot //, IUpdate
     {
         
+        [Folder("Data")]
+        public DataMove  _dataMove;
+        [Folder("Data")]
+        public DataJump  _dataJump;
+        [Folder("Data")]
+        public DataShoot _dataShoot;
+        //[FoldoutGroup("Data")] 
+        //public DataMove     _dataMoveMain;
         
-        [FoldoutGroup("Data")] public DataMove _move;
-        [FoldoutGroup("Data")] public DataMove _move2;
+        //private IData    _dataMove;
+        //[FoldoutGroup("Actions")] 
         
-        private IData    _dataMove;
-        private IAction  _actionMove;
+        public ActionMoveForce _actionMove;
       
         public override void OnAwake()
         {
