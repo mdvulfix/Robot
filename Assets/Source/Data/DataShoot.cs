@@ -4,11 +4,12 @@ using UnityEngine;
 namespace Robot
 {
     [Serializable]
+    [CreateAssetMenu(fileName = "Data Shoot (new)", menuName = "Data/Shoot", order = 2)]
     public class DataShoot: Data
     {    
-        [SerializeField] private int        _speed;
+        [SerializeField, Header("Move")] private int        _speed;
         [SerializeField] private Vector3    _direction;
-        [SerializeField] private GameObject _bulletPref;
+        [SerializeField, Header("Prefab")] private GameObject _bulletPref;
         
         public int        Speed       {get => _speed;     protected set => _speed = value;}
         public Vector3    Direction   {get => _direction; protected set => _direction = value;}

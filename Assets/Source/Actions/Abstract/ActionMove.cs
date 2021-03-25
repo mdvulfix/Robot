@@ -8,7 +8,7 @@ namespace Robot
     public abstract class ActionMove: Action<DataMove>
     {
         
-        
+        public DataMove dataMove;
         
         public override void Initialize(IBot bot)
         {

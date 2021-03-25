@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Robot.Attributes;
@@ -18,7 +18,8 @@ namespace Robot
     [Serializable]
     public class Bot: MonoBehaviour, IBot
     {
-        [Folder("Data")]
+
+        [Folder("Main")]
         public GameObject _object;
 
         public GameObject Obj {get; private set;}    

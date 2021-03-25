@@ -5,6 +5,7 @@ using UnityEngine;
 
 public static class Utility
 {
+    /*
     public static ReorderableList CreateAutoLayout(SerializedProperty property, float columnSpacing = 10f)
     {
         return CreateAutoLayout(property, true, true, true, true, null, null, columnSpacing);
@@ -175,4 +176,5 @@ public static class Utility
         public string PropertyName;
         public float? Width;
     }
+    */
 }

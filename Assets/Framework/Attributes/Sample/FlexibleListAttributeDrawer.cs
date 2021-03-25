@@ -9,31 +9,34 @@ using UnityEditorInternal;
 
 namespace Robot.Attributes
 {
-	[CustomEditor(typeof(ActionMoveTranslate), true, isFallback = true)]
+	[CustomEditor(typeof(BotCanon), true, isFallback = true)]
+    [CanEditMultipleObjects]
     public class FlexibleListAttributeDrawer : Editor
     {
         
-        private List<SerializedProperty> Properties {get; } = new List<SerializedProperty>();
+        //private List<SerializedProperty> Properties {get; } = new List<SerializedProperty>();
         
-        private FlexibleListAttribute   _attribute;
-        private List<FieldInfo>         _objectFields;
+        //private FlexibleListAttribute   _attribute;
+        //private List<FieldInfo>         _objectFields;
         
         private ReorderableList         _listProperty;
 
-        private BotCanon _bot;
+        //private ActionMoveTranslate _bot;
         
         private void OnEnable()
         {
             
             //GetObjectFields();
-            if(target == null)
-                return;
+           // if(target == null)
+            //    return;
             
-            _bot = (BotCanon)target;
-            
-            _listProperty = new ReorderableList(serializedObject, serializedObject.FindProperty("ActionsList"),true, true, true, true);
+            //_bot = (ActionMoveTranslate)target;
+            //var property = this.serializedObject.FindProperty("DataList");
+            //_listProperty = new ReorderableList(property.serializedObject, property ,true, true, true, true);
         
             //Repaint();
+
+
         
         }
 
@@ -53,11 +56,18 @@ namespace Robot.Attributes
 
         public override void OnInspectorGUI()
         {
-            //serializedObject.Update();
+            //this.serializedObject.Update();
 
-            DrawDefaultInspector();
+            //DrawDefaultInspector();
             //_listProperty.DoLayoutList();
-            
+            //var property = _listProperty.serializedProperty;
+            //property.isExpanded = EditorGUILayout.Foldout(property.isExpanded, property.displayName);
+            //if (property.isExpanded)
+            //{
+            //    _listProperty.DoLayoutList();
+            //}
+
+            //this.serializedObject.ApplyModifiedProperties();
             
         }
 
@@ -65,7 +75,7 @@ namespace Robot.Attributes
 
  #region private methods
      
-    
+    /*
     private void GetObjectFields()
     {
             _objectFields = target.GetType()
@@ -87,10 +97,11 @@ namespace Robot.Attributes
             
     }
  
- 
+    */
  #endregion       
-
-
-
+  
     }
+
+
+
 }

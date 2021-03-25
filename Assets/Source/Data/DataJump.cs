@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Robot
 {
     [Serializable]
+    [CreateAssetMenu(fileName = "Data Jump (new)", menuName = "Data/Jump", order = 1)]
     public class DataJump: Data
     {    
         [SerializeField] private int        _speed;

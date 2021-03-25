@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Robot
 {
     [Serializable]
+    [CreateAssetMenu(fileName = "Data Move (new)", menuName = "Data/Move", order = 3)]
     public class DataMove: Data
     {    
         [SerializeField] private int        _speed;

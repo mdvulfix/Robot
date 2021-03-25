@@ -9,7 +9,7 @@ namespace Robot
     }
         
     [Serializable]
-    public abstract class Data: IData
+    public class Data: ScriptableObject, IData
     {
         public IBot Bot {get; protected set;}
  
